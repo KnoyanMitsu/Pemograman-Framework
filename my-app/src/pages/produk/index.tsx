@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import ProductView from "@/views/Product";
 
 const produk = () => {
     const [isLogin, setIsLogin] = useState(false);
@@ -18,18 +19,7 @@ const produk = () => {
     // Cegah layar berkedip jika di-redirect
     if (!isLogin) return null;
 
-    return (
-        <div>
-            <h1>Produk User Page</h1>
-            <br />
-            <button onClick={() => {
-                localStorage.removeItem("isLoggedIn");
-                router.push("/auth/login");
-            }}>
-                Logout
-            </button>
-        </div>
-    )
+    return <ProductView />
 }
 
 export default produk
