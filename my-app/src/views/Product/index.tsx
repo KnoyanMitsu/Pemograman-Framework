@@ -1,13 +1,14 @@
-import HeroSection from './HeroSection';
-import MainSection from './MainSection';
+import HeroSection from "./HeroSection";
+import MainSection from "./MainSection";
+import styles from "../../pages/produk/product.module.scss";
 
 const ProductView = () => {
-    return (
-        <div className="min-h-screen bg-gray-50">
-            <HeroSection />
-            <MainSection />
-        </div>
-    );
+  return (
+    <div className={styles.produk}>
+      <HeroSection />
+      <MainSection />
+    </div>
+  );
 };
 
 export default ProductView;
