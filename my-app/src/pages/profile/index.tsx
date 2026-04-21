@@ -1,11 +1,12 @@
+import { useSession } from "next-auth/react";
 const Profile = () => {
-    return (
-        <div>
-            <h1>Nama: Fabian Ananda Merdana</h1>
-            <p>NIM: 222107023004</p>
-            <p>Program Studi: Teknik Informatika</p>
-        </div>
-    )
-}
+  const { data }: any = useSession();
+  return (
+    <div>
+      <h1>Halaman Profile</h1>
+      <h1>Selamat Datang {data?.user?.fullname}</h1>
+    </div>
+  );
+};
 
-export default Profile
+export default Profile;
