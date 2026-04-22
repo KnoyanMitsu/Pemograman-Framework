@@ -3,7 +3,7 @@ import withAuth from "./Middleware/withAuth";
 
 export default withAuth(
   async (req) => {
-    return NextResponse.next(); // Harus return Response!
+    return NextResponse.next();
   },
-  ["/dashboard", "/profile"],
+  ["/profile"],
 );
