@@ -17,19 +17,40 @@ export default function withAuth(
       secret: process.env.NEXTAUTH_SECRET,
     });
 
-    // 1. Jika rute butuh login tapi gak ada token, tendang ke login
+    // 1. Jika rute butuh login (requireAuth) tapi tidak ada token, tendang ke login
     if (requireAuth.includes(pathname) && !token) {
       const loginUrl = new URL("/auth/login", req.url);
       loginUrl.searchParams.set("callbackUrl", encodeURI(req.url));
       return NextResponse.redirect(loginUrl);
     }
 
-    // 2. PROTEKSI KHUSUS: Hanya Admin yang boleh masuk rute /admin
-    if (pathname.startsWith("/admin") && token?.role !== "admin") {
-      return NextResponse.redirect(new URL("/", req.url));
+    // 2. Jika sudah login (token ada), atur pengalihan otomatis (Conditional Redirect)
+    if (token) {
+      // Jika user baru login dan masih di halaman login, arahkan ke dashboard masing-masing
+      if (pathname === "/auth/login") {
+        if (token.role === "admin")
+          return NextResponse.redirect(new URL("/admin", req.url));
+        if (token.role === "editor")
+          return NextResponse.redirect(new URL("/editor", req.url));
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+
+      // 3. PROTEKSI KHUSUS ADMIN: Hanya Admin yang boleh masuk /admin
+      if (pathname.startsWith("/admin") && token.role !== "admin") {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+
+      // 4. PROTEKSI KHUSUS EDITOR: Hanya Editor & Admin yang boleh masuk /editor
+      if (
+        pathname.startsWith("/editor") &&
+        token.role !== "editor" &&
+        token.role !== "admin"
+      ) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
     }
 
-    // 3. Jika sudah login (Admin atau User), rute lain (seperti /product) silakan lewat
+    // 5. Izinkan lanjut ke rute berikutnya jika semua valid
     return middleware(req, next);
   };
 }

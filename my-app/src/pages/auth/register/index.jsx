@@ -118,6 +118,7 @@ export default function TampilanRegister() {
             >
               <option value="member">Member</option>
               <option value="admin">Admin</option>
+              <option value="editor">Editor</option>
             </select>
           </div>
 

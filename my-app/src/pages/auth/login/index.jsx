@@ -77,7 +77,6 @@ export default function TampilanLogin() {
               required
             />
           </div>
-
           <div className={style.login__form__item}>
             <label
               htmlFor="password"
@@ -95,7 +94,6 @@ export default function TampilanLogin() {
               required
             />
           </div>
-
           <button
             type="submit"
             disabled={isLoading}
@@ -103,8 +101,24 @@ export default function TampilanLogin() {
           >
             {isLoading ? "Loading..." : "Login"}
           </button>
+          {""}
+          <br /> <br />
+          <button
+            onClick={() => signIn("google", { callbackUrl, redirect: false })}
+            className={style.login__form__item__button}
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "sign in with google"}
+          </button>
+          <br /> <br />
+          <button
+            onClick={() => signIn("github", { callbackUrl, redirect: false })}
+            className={style.login__form__item__button}
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "sign in with github"}
+          </button>
         </form>
-
         <p className={style.login__link}>
           Tidak punya akun?{" "}
           <Link href="/auth/register">Ke Halaman Register</Link>
